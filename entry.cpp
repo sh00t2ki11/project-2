@@ -8,6 +8,7 @@
 
 using namespace std;
 
+
 void display(void)
 {
    glClear (GL_COLOR_BUFFER_BIT);
@@ -21,7 +22,7 @@ void display(void)
    glEnd();
 
    glFlush ();
-  // glutPostRedisplay();
+  //glutPostRedisplay();
 }
 
 void init (void)
