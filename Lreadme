@@ -1,0 +1,3 @@
+to compile with gcc : 
+
+g++ -lglut -lGL -lGLU main.cpp -o object
