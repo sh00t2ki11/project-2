@@ -1,5 +1,6 @@
 
 #include "iostream"
+#include <math.h>
 
 #include "GL/glut.h"
 #include "GL/gl.h"
@@ -59,9 +60,10 @@ void woodenBar(void){
 
 
 
-void windows(void){
+void windows(float r, float g, float b){
 	//multiple windows
-	glColor3f(0.4,0.5,0.6);
+	glColor3f(r,g,b);
+	
 	for(GLint i=0;i<18;i++){
 		for(GLint j=0;j<5;j++){
 		glPushMatrix();
@@ -77,7 +79,8 @@ void windows(void){
 		}
 	
 	}
-	glColor3f(0.6,0.7,0.8);
+	
+	glColor3f(r+0.1,g+0.1,b+0.1);
 	for(GLint i=0;i<18;i++){
 		for(GLint j=0;j<3;j++){
 		glPushMatrix();
@@ -98,37 +101,46 @@ void windows(void){
 }
 
 
-void building(void){
+void building(float r,float g,float b){
 	
-	glColor3f(0.3,0.4,0.4);
+	glColor3f(r,g,b);
 	glBegin(GL_POLYGON);
 		glVertex2i(100,235);
 		glVertex2i(100,535);
 		glVertex2i(150,545);
 		glVertex2i(150,235);
 	glEnd();
-	glColor3f(0.5,0.6,0.6);
+	glColor3f(r+0.2,b+0.2,g+0.2);
 	glBegin(GL_POLYGON);
 		glVertex2i(150,545);
 		glVertex2i(165,530);
 		glVertex2i(165,235);
 		glVertex2i(150,235);
 	glEnd();
-	windows();
+	windows(r+0.1,g,b+0.2);
 	
 }
 
+void bricksLong(int a,int x,int b,int y){
+	glColor3f(0.5,0.5,0.4);
+	glBegin(GL_POLYGON);
+	for(int i=1;i<10;i++){
+		glVertex2i(rand()%a+x,rand()%b+y);
+	//	glVertex2i(rand()%20+40,rand()%25+420);
+	}
+	glEnd();
+}
 
 void wall(void){
 
-	glColor3f(1.0,0.0,0.0);
+	glColor3f(0.2,0.3,0.4);
 	glBegin(GL_POLYGON);
-		glVertex2i(0,240);
+		glVertex2i(2,240);
 		glVertex2i(40,350);
 		glVertex2i(40,450);
-		glVertex2i(0,340);
+		glVertex2i(2,340);
 	glEnd();
-	glColor3f(1.0,1.0,0.0);
+	glColor3f(0.2,0.2,0.2);
 	glBegin(GL_POLYGON);
 
 		glVertex2i(40,350);
@@ -139,10 +151,76 @@ void wall(void){
 		
 	
 
+for(int j=0;j<5;j++){
+for(int i=0;i<50;i++){
+glPushMatrix();
+	glScalef(1.4,1,0.0);
+	glTranslatef(20*i,-15*j,0);
+	bricksLong(20,40,25,420);
+glPopMatrix();
+}
+}
 
 
 }
 
+
+void sun(float r, float g, float b){
+glColor3f(r,g,b);
+GLfloat x,y;
+int radius=10;
+int num=20;
+int x_centre=420, y_centre=240;
+	glBegin(GL_POLYGON);
+	for(int i=1;i<=num;i++){
+
+		x = x_centre + radius *cos(i*2.0*3.14/num);
+		y = y_centre + radius *sin(i*2.0*3.14/num);
+		
+		glVertex2f(x,y);
+	}
+	glEnd();
+	
+	for(int count=0;count<6;count++){
+	glColor3f(1.0-count/15.0,1.0-count/15.0,1.0-count/15.0);
+	glBegin(GL_LINE_LOOP);
+	for(int i=1;i<=num;i++){
+
+		x = x_centre + (radius+count) *cos(i*2.0*3.14/num);
+		y = y_centre + (radius+count) *sin(i*2.0*3.14/num);
+		
+		glVertex2f(x,y);
+	}
+	glEnd();
+	}
+
+}
+
+
+void road (void){
+
+glColor3f(0.1,0.1,0.1);
+glBegin(GL_POLYGON);
+	glVertex2i(0,238);
+	glVertex2i(0,100);
+	glVertex2i(1000,100);
+	glVertex2i(1000,238);
+glEnd();
+
+
+glEnable(GL_LINE_STIPPLE);
+glLineWidth(6);
+glColor3f(0.9,0.9,0.9);
+glLineStipple(7,0x00FF);
+glBegin(GL_LINES);
+	glVertex2i(0,170);
+	glVertex2i(1000,170);
+glEnd();
+
+glDisable(GL_LINE_STIPPLE);
+glLineWidth(1.5);
+
+}
 
 void display(void)
 {
@@ -150,22 +228,42 @@ void display(void)
    glClear (GL_COLOR_BUFFER_BIT);
    
       glPushMatrix();
-   	glTranslatef(100.0,160,0.0);
-   	glScalef(0.5,0.5,1.0);
-   	building();
+   	glTranslatef(100.0,220,0.0);
+   	glScalef(0.4,0.4,1.0);
+   	building(0.2,0.3,0.3);
    glPopMatrix();
    
    glPushMatrix();
-   	glTranslatef(0.0,160,0.0);
+   	glTranslatef(200.0,260.0,0.0);
+   	glScalef(0.7,0.3,1.0);
+   	building(0.1,0.3,0.3);
+   glPopMatrix();
+   
+      glPushMatrix();
+   	glTranslatef(255.0,260.0,0.0);
+   	glScalef(0.5,0.2,1.0);
+   	building(0.2,0.2,0.2);
+   glPopMatrix();
+   
+   glPushMatrix();
+   	glTranslatef(250.0,200.0,0.0);
+   	glScalef(1.60,0.4,1.0);
+   	building(0.2,0.3,0.3);
+   glPopMatrix();
+   
+   glPushMatrix();
+   	glTranslatef(0.0,120,0.0);
    	glScalef(0.5,0.5,1.0);
    	wall();
    	woodenBar();
    glPopMatrix();
    
-
-
-
+   glPushMatrix();
+   	glScalef(1.1,2.0,1.0);
+	sun(0.9,0.9,0.5);
+   glPopMatrix();
    
+     road();
 
    glFlush ();
 
@@ -193,6 +291,7 @@ void init (void)
 
 int main(int argc, char** argv)
 {
+
    glutInit(&argc, argv);
    glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
    glutInitWindowSize (1500,1000);
